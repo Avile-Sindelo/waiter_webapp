@@ -1,0 +1,20 @@
+{
+  "name": "waiter_webapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Avile-Sindelo/waiter_webapp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Avile-Sindelo/waiter_webapp/issues"
+  },
+  "homepage": "https://github.com/Avile-Sindelo/waiter_webapp#readme"
+}
