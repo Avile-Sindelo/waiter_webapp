@@ -1,0 +1,9 @@
+#days{
+    display: flex;
+    flex-direction: column;
+    background-color: coral;
+}
+
+#error-message{
+    color: crimson;
+}

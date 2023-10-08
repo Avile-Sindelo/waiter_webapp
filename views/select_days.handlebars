@@ -2,23 +2,44 @@
 
     <h1>Hello {{username}}</h1>
     <h2>Please select the days on which you are available to work below</h2>
-    
+    <p id="error-message">{{error}}</p>
+
     <div id="days">
         <label for="Monday"> Monday </label>
-        <input type="checkbox" value="monday" name="day-one">
+        <input type="checkbox" value="Monday" name="days">
         <label for="Tuesday"> Tuesday </label>
-        <input type="checkbox" value="tuesday" name="day-two">
+        <input type="checkbox" value="Tuesday" name="days">
         <label for="Wednesday"> Wednesday </label>
-        <input type="checkbox" value="wednesday" name="day-three">
+        <input type="checkbox" value="Wednesday" name="days">
         <label for="Thursday"> Thursday </label>
-        <input type="checkbox" value="thursday" name="day-four">
+        <input type="checkbox" value="Thursday" name="days">
         <label for="Friday"> Friday</label>
-        <input type="checkbox" value="friday" name="day-five">
+        <input type="checkbox" value="Friday" name="days">
         <label for="Saturday"> Saturday </label>
-        <input type="checkbox" value="saturday" name="day-six">
+        <input type="checkbox" value="Saturday" name="days">
         <label for="Sunday"> Sunday </label>
-        <input type="checkbox" value="sunday" name="day-seven">
+        <input type="checkbox" value="Sunday" name="days">
 
         <button type="submit"> Submit </button>
     </div>
+
+    <p id="success-message">{{success}}</p>
 </form>
+
+
+<script>
+    let error = document.querySelector('#error-message');
+    let success = document.querySelector('#success-message');
+
+    if(error.textContent != ''){
+        setTimeout(function(){
+            error.textContent = '';
+        }, 3000)
+    }
+
+    if(success.textContent != ''){
+        setTimeout(function(){
+            success.textContent = '';
+        }, 3000)
+    }
+</script>
