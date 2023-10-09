@@ -57,7 +57,7 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', 'views');
 
-app.use(express.static('public/css'));
+app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -67,20 +67,25 @@ app.get('/', function(req, res){
 
 app.get('/waiters/:username', async function(req, res){
     let username = req.params.username;
-    let duplicateCondition = await database.waiterAlreadyExists(username)
+    let duplicateCondition = await database.waiterAlreadyExists(username);
 
     if(duplicateCondition){ //Already exists
         console.log('This is the duplicate : ',  duplicateCondition);
         messages.error = 'Waiter is already recorded in the system';
         messages.success = '';
         //retrieve the days that were selected in the last session
+        let days = await database.getWaiterDays(username);
+        res.render('select_days', {username: username, error: messages.error, succes:messages.success, days});
     } else { //New waiter
         console.log('This is NOT a duplicate : ', duplicateCondition);
+        //clear previous messages
+        messages.error = '';
+        messages.success = '';
         // add the new waiter to the Waiters table
         await database.addWaiter(username);
         //render the view that allows for day selection
+        res.render('select_days', {username: username, error: messages.error, succes:messages.success});
     }
-    res.render('select_days', {username: username, error: messages.error, succes:messages.success});
 });
 
 app.post('/waiters/:username', async function(req, res){
@@ -88,22 +93,25 @@ app.post('/waiters/:username', async function(req, res){
     let selected_days = req.body;
     let days = selected_days.days;
     let username = req.params;
-    console.log(days);
-    console.log(username);
 
    if(days.length > 3){
         messages.error = 'You cannot select more than 3 days';
         messages.success = '';
 
-        res.render('select_days', {username: username, success: messages.success, error: messages.error})
+        res.render('select_days', {username: username.username, success: messages.success, error: messages.error})
     } else {
        //loop over the selected_days object and extract each day
-        //    for(let i = 0; days.length; i++){
-        //        //Populate the Shifts table using the username parameter to query that database
-        //        // await database.addShift(await database.getWaiterId(username), await database.getDayId(days[i]))
-        //    }
+        for(let i = 0; i < days.length; i++){
+            //Populate the Shifts table using the username parameter to query that database
+            
+            let dayName = days[i];
+            let dayID = await database.getDayId(dayName);
+            let waiterID = await database.getWaiterId(username.username);
+            
+            await database.addShift(waiterID.id, dayID.id);
+        }
        
-       res.render('chosen_days', {days})
+       res.render('chosen_days', {days, username: username.username})
     }
     
 });

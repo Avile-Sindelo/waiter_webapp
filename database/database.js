@@ -17,7 +17,7 @@ export default function Database(db){
     }
 
     async function getWaiterId(waiter){
-        return await db.oneOrNone('SELECT id FROM waiters WHERE name=$1', [waiter]);
+        return await db.one('SELECT id FROM waiters WHERE name=$1', [waiter]);
     }
 
     async function addShift(waiter_id, day_id){
@@ -51,6 +51,10 @@ export default function Database(db){
     async function viewAllShifts(){
         return await db.manyOrNone('SELECT * FROM shifts;');
     }
+
+    async function getWeekdays(){
+        return many('SELECT day FROM days');
+    }
     
     //update function
 
@@ -62,6 +66,7 @@ export default function Database(db){
         addShift,
         getWaiterDays,
         getTableContents,
-        viewAllShifts
+        viewAllShifts,
+        getWeekdays
     }
 }
