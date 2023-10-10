@@ -76,9 +76,14 @@ app.get('/waiters/:username', async function(req, res){
         messages.success = '';
         //retrieve the days that were selected in the last session
         let days = await database.getWaiterDays(username);
+        let workdays = [];
+
+        for(let i = 0; i < daysOfTheWeek.length; i++){
+            workdays.push(daysOfTheWeek[i].day);
+        }
         
         console.log('Waiter days :', days);
-        console.log('Days of the week :', daysOfTheWeek)
+        console.log('Days of the week :', workdays)
 
 
         res.render('select_days', {username: username, error: messages.error, succes:messages.success, days, daysOfTheWeek});
