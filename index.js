@@ -68,6 +68,7 @@ app.get('/', function(req, res){
 app.get('/waiters/:username', async function(req, res){
     let username = req.params.username;
     let duplicateCondition = await database.waiterAlreadyExists(username);
+    let daysOfTheWeek = await database.getWeekdays();
 
     if(duplicateCondition){ //Already exists
         console.log('This is the duplicate : ',  duplicateCondition);
@@ -75,7 +76,12 @@ app.get('/waiters/:username', async function(req, res){
         messages.success = '';
         //retrieve the days that were selected in the last session
         let days = await database.getWaiterDays(username);
-        res.render('select_days', {username: username, error: messages.error, succes:messages.success, days});
+        
+        console.log('Waiter days :', days);
+        console.log('Days of the week :', daysOfTheWeek)
+
+
+        res.render('select_days', {username: username, error: messages.error, succes:messages.success, days, daysOfTheWeek});
     } else { //New waiter
         console.log('This is NOT a duplicate : ', duplicateCondition);
         //clear previous messages
@@ -84,7 +90,7 @@ app.get('/waiters/:username', async function(req, res){
         // add the new waiter to the Waiters table
         await database.addWaiter(username);
         //render the view that allows for day selection
-        res.render('select_days', {username: username, error: messages.error, succes:messages.success});
+        res.render('select_days', {username: username, error: messages.error, succes:messages.success, daysOfTheWeek});
     }
 });
 

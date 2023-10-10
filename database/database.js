@@ -53,7 +53,7 @@ export default function Database(db){
     }
 
     async function getWeekdays(){
-        return many('SELECT day FROM days');
+        return await db.many('SELECT day FROM days');
     }
     
     //update function

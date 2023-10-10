@@ -5,9 +5,12 @@
     <p id="error-message">{{error}}</p>
 
     <div id="days">
-        <label for="Monday"> Monday </label>
-        <input type="checkbox" value="Monday" name="days" class="workday">
-        <label for="Tuesday"> Tuesday </label>
+    {{#each daysOfTheWeek}}
+        <label for={{day}}> {{day}} </label>
+        <input type="checkbox" value={{day}} name="days" class="workday" >
+        {{!-- {{#if }} checked="true" {{/if}} --}}
+    {{/each}}
+        {{!-- <label for="Tuesday"> Tuesday </label>
         <input type="checkbox" value="Tuesday" name="days" class="workday">
         <label for="Wednesday"> Wednesday </label>
         <input type="checkbox" value="Wednesday" name="days" class="workday">
@@ -18,7 +21,7 @@
         <label for="Saturday"> Saturday </label>
         <input type="checkbox" value="Saturday" name="days" class="workday">
         <label for="Sunday"> Sunday </label>
-        <input type="checkbox" value="Sunday" name="days" class="workday">
+        <input type="checkbox" value="Sunday" name="days" class="workday"> --}}
 
         <button type="submit"> Submit </button>
     </div>
