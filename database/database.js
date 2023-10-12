@@ -55,6 +55,13 @@ export default function Database(db){
     async function getWeekdays(){
         return await db.many('SELECT day FROM days');
     }
+
+    async function updateDays(waiterID, newDays){
+        //update the days 
+        await db.none(`UPDATE shifts
+        SET column1 = value1, column2 = value2, ...
+        WHERE condition;`)
+    }
     
     //update function
 
@@ -67,6 +74,7 @@ export default function Database(db){
         getWaiterDays,
         getTableContents,
         viewAllShifts,
-        getWeekdays
+        getWeekdays,
+        updateDays
     }
 }

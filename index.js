@@ -82,11 +82,32 @@ app.get('/waiters/:username', async function(req, res){
             workdays.push(daysOfTheWeek[i].day);
         }
         
-        console.log('Waiter days :', days);
-        console.log('Days of the week :', workdays)
+        // console.log('Waiter days :', days);
+        // console.log('Days of the week :', workdays);
+
+        let checkedDays = {
+            Monday: false,
+            Tuesday: false,
+            Wednesday: false,
+            Thursday: false,
+            Friday: false,
+            Saturday: false,
+            Sunday: false,
+        };
+
+        for(let i = 0; i < workdays.length; i++){
+            for(let j = 0; j < days.length; j++){
+                if(days[j] == workdays[i]){
+                    //true
+                    checkedDays[workdays[i]] = true;
+                }
+            }
+        }
+
+        console.log('Checked days : ', checkedDays);
 
 
-        res.render('select_days', {username: username, error: messages.error, succes:messages.success, days, daysOfTheWeek});
+        res.render('select_days', {username: username, error: messages.error, succes:messages.success, days, daysOfTheWeek, checkedDays});
     } else { //New waiter
         console.log('This is NOT a duplicate : ', duplicateCondition);
         //clear previous messages
