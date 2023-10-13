@@ -1,16 +1,18 @@
 <div id="chosen-days-div">
-    <h2 id="chosen-days-heading">{{username}} chosen days are displayed below</h2>
+    <h2 id="chosen-days-heading">{{username}}'s chosen days are displayed below</h2>
     <div>
     {{#each days}}
-        <p>{{this}}</p>
+        <p class="chosen-day">{{this}}</p>
     {{/each}}
     </div>
 
-    <form action="/" method="GET">
-        <button type="submit"> Home </button>
-    </form>
+    <div id="navigation-div">
+        <form action="/" method="GET">
+            <button type="submit" id="chosen-days-to-home-btn" class="nav-btn"> Home </button>
+        </form>
 
-    <form action="/waiters/{{username}}" method="GET">
-        <button type="submit"> Update Days </button>
-    </form>
+        <form action="/waiters/{{username}}" method="GET">
+            <button type="submit" id="chosen-days-to-update-btn" class="nav-btn"> Update Days </button>
+        </form>
+    </div>
 </div>

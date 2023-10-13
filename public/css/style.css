@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Exo+2:ital,wght@1,300&family=Gruppo&family=Kaushan+Script&family=Moo+Lah+Lah&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:ital,wght@1,100&family=Caveat:wght@600&family=Exo+2:ital,wght@1,300&family=Gruppo&family=Handjet:wght@200;300&family=Kaushan+Script&family=Merienda:wght@300&family=Moo+Lah+Lah&family=Ultra&display=swap');
 #select-days-div{
     margin: 0;
     padding: 0 5em 0 10em;
@@ -63,4 +63,85 @@
     align-items: center;
     flex-direction: column;
     padding: 4em 0;
+}
+
+#chosen-days-heading{
+    font-family: 'Ultra', serif;
+    font-weight: bolder;
+    color: #6A9C89;
+    text-shadow: 1px 1px 1px #333;
+}
+
+.chosen-day{
+    font-family: 'Merienda', cursive;
+    font-weight: bolder;
+    color: #333;
+}
+
+#navigation-div{
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-btn{
+    border: none;
+    border-radius: 5px;
+    margin: 0 2em;
+    padding: 1em 3em;
+    box-shadow: 1px 1px 5px #333;
+    color: #fff;
+}
+
+#chosen-days-to-home-btn{
+    background-color: #6A9C89;
+}
+#chosen-days-to-home-btn:hover{
+    border: 1px solid #6A9C89;
+    color: #333;
+    background: #fff;
+}
+
+#chosen-days-to-update-btn{
+    background-color: #F39F5A;
+}
+#chosen-days-to-update-btn:hover{
+    border: 1px solid #F39F5A;
+    color: #333;
+    background: #fff;
+}
+
+#index-div{
+    background-image: url('../images/coffeeOne.jpg');
+    background-size: cover;
+    margin: 0 10em;
+    padding: 4.5em 3.5em
+}
+
+#index-heading{
+    color: #26577C;
+    text-align: center;
+    font-family: 'Merienda', cursive;
+}
+
+#short-descr{
+    margin: 4em 3em;
+    text-align: center;
+    color: khaki;
+    font-family: 'Alegreya Sans SC', sans-serif;
+    font-weight: 900;
+    word-spacing: 2px;
+}
+
+#instructions{
+    margin: 10em 4em;
+    text-align: center;
+    color: beige;
+    font-family: 'Gruppo', sans-serif;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    word-spacing: 1.5px;
+}
+
+#lande{
+    color: goldenrod;
 }
