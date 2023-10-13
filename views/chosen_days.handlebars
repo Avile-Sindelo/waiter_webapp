@@ -1,6 +1,16 @@
-<h2>{{username}} chosen days are displayed below</h2>
-<div>
-{{#each days}}
-    <p>{{this}}</p>
-{{/each}}
+<div id="chosen-days-div">
+    <h2 id="chosen-days-heading">{{username}} chosen days are displayed below</h2>
+    <div>
+    {{#each days}}
+        <p>{{this}}</p>
+    {{/each}}
+    </div>
+
+    <form action="/" method="GET">
+        <button type="submit"> Home </button>
+    </form>
+
+    <form action="/waiters/{{username}}" method="GET">
+        <button type="submit"> Update Days </button>
+    </form>
 </div>

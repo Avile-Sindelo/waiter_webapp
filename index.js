@@ -76,38 +76,18 @@ app.get('/waiters/:username', async function(req, res){
         messages.success = '';
         //retrieve the days that were selected in the last session
         let days = await database.getWaiterDays(username);
-        let workdays = [];
-
+         
         for(let i = 0; i < daysOfTheWeek.length; i++){
-            workdays.push(daysOfTheWeek[i].day);
-        }
-        
-        // console.log('Waiter days :', days);
-        // console.log('Days of the week :', workdays);
-
-        let checkedDays = {
-            Monday: false,
-            Tuesday: false,
-            Wednesday: false,
-            Thursday: false,
-            Friday: false,
-            Saturday: false,
-            Sunday: false,
-        };
-
-        for(let i = 0; i < workdays.length; i++){
             for(let j = 0; j < days.length; j++){
-                if(days[j] == workdays[i]){
+                if(days[j] == daysOfTheWeek[i].day){
                     //true
-                    checkedDays[workdays[i]] = true;
+                    // checkedDays[workdays[i]] = true;
+                    daysOfTheWeek[i].checked = true;
                 }
             }
         }
 
-        console.log('Checked days : ', checkedDays);
-
-
-        res.render('select_days', {username: username, error: messages.error, succes:messages.success, days, daysOfTheWeek, checkedDays});
+        res.render('select_days', {username: username, error: messages.error, succes:messages.success, days, daysOfTheWeek});
     } else { //New waiter
         console.log('This is NOT a duplicate : ', duplicateCondition);
         //clear previous messages
@@ -146,6 +126,12 @@ app.post('/waiters/:username', async function(req, res){
        res.render('chosen_days', {days, username: username.username})
     }
     
+});
+
+app.get('/admin', async function(req, res){
+    //get the days from the database
+
+    res.render('admin');
 });
 
 // app.post('/waiter_reg/', function(req, res){
