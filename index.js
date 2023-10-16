@@ -113,9 +113,16 @@ app.post('/waiters/:username', async function(req, res){
 
         res.render('select_days', {username: username.username, success: messages.success, error: messages.error, daysOfTheWeek})
     } else {
-       //loop over the selected_days object and extract each day
+       //Check if the waiter is a duplicate
+       let duplicate = await database.waiterAlreadyExists(username.username);
        let waiterID = await database.getWaiterId(username.username);
-        await database.addShift(waiterID.id, days);       
+       
+       if(duplicate){
+            await database.updateShift(waiterID.id, days);
+       } else {
+            await database.addShift(waiterID.id, days);
+       }
+               
        res.render('chosen_days', {days, username: username.username})
     }
     
