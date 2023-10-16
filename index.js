@@ -105,24 +105,17 @@ app.post('/waiters/:username', async function(req, res){
     let selected_days = req.body;
     let days = selected_days.days;
     let username = req.params;
+    let daysOfTheWeek = await database.getWeekdays();
 
    if(days.length > 3){
         messages.error = 'You cannot select more than 3 days';
         messages.success = '';
 
-        res.render('select_days', {username: username.username, success: messages.success, error: messages.error})
+        res.render('select_days', {username: username.username, success: messages.success, error: messages.error, daysOfTheWeek})
     } else {
        //loop over the selected_days object and extract each day
-        for(let i = 0; i < days.length; i++){
-            //Populate the Shifts table using the username parameter to query that database
-            
-            let dayName = days[i];
-            let dayID = await database.getDayId(dayName);
-            let waiterID = await database.getWaiterId(username.username);
-            
-            await database.addShift(waiterID.id, dayID.id);
-        }
-       
+       let waiterID = await database.getWaiterId(username.username);
+        await database.addShift(waiterID.id, days);       
        res.render('chosen_days', {days, username: username.username})
     }
     
