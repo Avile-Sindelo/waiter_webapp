@@ -129,9 +129,23 @@ app.post('/waiters/:username', async function(req, res){
 });
 
 app.get('/admin', async function(req, res){
-    //get the days from the database
+    //get the weekdays from the database
+    let week = await database.getWeekdays();
+    let weekdays;
+    let data = {
+        day: '',
+        waiters: []
+    };
 
-    res.render('admin');
+    // console.log(week);
+    //loop over the days  
+    for(let i = 0; i < week.length; i++){
+        //get the waiters available for each day
+        weekdays = await database.waitersAvailableToday(week[i].day);
+        console.log(week[i].day+' :', weekdays);
+    }
+
+    res.render('admin', {days: weekdays, week});
 });
 
 // app.post('/waiter_reg/', function(req, res){

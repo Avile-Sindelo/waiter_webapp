@@ -145,3 +145,44 @@
 #lande{
     color: goldenrod;
 }
+
+#container{
+    background-image: url('../images/waiterTwo.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#admin-heading{
+    text-align: center;
+    color: #333;
+    font-family: 'Gruppo', sans-serif;
+}
+
+.admin-weekday{
+    margin: 2em 2em;
+    padding: 1em 2em;
+    border: 1px solid darkseagreen;
+    width: fit-content;
+}
+
+#admin-days-div{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.day-heading{
+    padding: 0 2em;
+    font-family: 'Alegreya Sans SC', sans-serif;
+    font-weight: bolder;
+    color: brown;
+}
+
+.waiter-admin{
+    padding: 0 2em;
+    margin: 0 0 0 2em;
+    font-family: 'Handjet', cursive;
+    font-weight: bolder;
+    color: darkseagreen;
+    letter-spacing: 1px;
+}

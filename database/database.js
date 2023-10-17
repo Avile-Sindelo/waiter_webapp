@@ -96,6 +96,20 @@ export default function Database(db){
         return await db.manyOrNone('select * from waiters')
     }
 
+    async function waitersAvailableToday(day){
+        let waitersAvailable = await db.manyOrNone(`SELECT days.day,
+                shifts.waiter_id,
+                waiters.name
+                FROM days
+                JOIN shifts
+                ON days.id=shifts.day_id
+                JOIN waiters
+                ON waiters.id=shifts.waiter_id
+                WHERE day=$1;`, [day]);
+        //console.log(waitersAvailable);
+        return waitersAvailable;
+    }
+
     return {
         waiterAlreadyExists,
         getDayId,
@@ -107,6 +121,7 @@ export default function Database(db){
         viewAllShifts,
         getWeekdays,
         updateShift,
-        getAvailableWaiters
+        getAvailableWaiters,
+        waitersAvailableToday
     }
 }

@@ -1,1 +1,27 @@
-<h1> These are the days with their available waiters</h1>
+<div id="container">
+    <h1 id="admin-heading"> These are the days with their available waiters</h1>
+
+    <div id="admin-days-div">
+        {{#each days}}
+        <div class="admin-weekday">
+            <h2 class="day-heading">{{days.day}}Monday</h2>
+            <p class="waiter-admin">{{waiters}}Sbahle</p>
+            {{#each waiters}}
+            {{/each}}
+        </div>
+        <div class="admin-weekday">
+            <h2 class="day-heading">{{days.day}}Tuesday</h2>
+            <p class="waiter-admin">{{waiters}}Likho</p>
+            {{#each waiters}}
+            {{/each}}
+        </div>
+        <div class="admin-weekday">
+            <h2 class="day-heading">{{days.day}}Wednesday</h2>
+            <p class="waiter-admin">{{waiters}}Sbahle</p>
+            <p class="waiter-admin">{{waiters}}Lizwi</p>
+            {{#each waiters}}
+            {{/each}}
+        </div>
+        {{/each}}
+    </div>
+</div>
