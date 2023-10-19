@@ -131,21 +131,52 @@ app.post('/waiters/:username', async function(req, res){
 app.get('/admin', async function(req, res){
     //get the weekdays from the database
     let week = await database.getWeekdays();
-    let weekdays;
-    let data = {
-        day: '',
-        waiters: []
-    };
+    let dbWaiters;
+    
+    let myArr = [];
 
     // console.log(week);
     //loop over the days  
     for(let i = 0; i < week.length; i++){
+        let data = {
+            day: ''
+        };
         //get the waiters available for each day
-        weekdays = await database.waitersAvailableToday(week[i].day);
-        console.log(week[i].day+' :', weekdays);
-    }
+        let today = week[i].day;
+        let myWaiters = [];
+        data.day = today;
+        dbWaiters = await database.waitersAvailableToday(today);
+        dbWaiters.forEach(waiter => {
+            myWaiters.push(waiter.name);
+        });
+        console.log('Returned waiters : ', myWaiters);
+        data.waiters = myWaiters;
+        if(myWaiters.length == 1){
+            //red
+            data.bgColor = 'crimson';
+        } else if(myWaiters.length < 3 && myWaiters.length > 1){
+            //under subscribed
+            data.bgColor = 'orange';
+        } else if(myWaiters.length == 3){
+            //perfect
+            data.bgColor = 'green';
+        } else if(myWaiters.length > 3){
+            //Over subscribed
+            data.bgColor = 'purple';
+        }
+        myArr.push(data);
+    }    
 
-    res.render('admin', {days: weekdays, week});
+    console.log('Overall data ting: ', myArr);
+    
+    //loop over the weekdays array
+    // for(let k = 0; k < weekdays.length; k++){
+    //     data.waiters.push(weekdays[k].name);
+    //     console.log(data)
+    // }
+    // console.log('Overall data : ', myArr);
+
+    res.render('admin', {days: myArr, week});
 });
 
 // app.post('/waiter_reg/', function(req, res){

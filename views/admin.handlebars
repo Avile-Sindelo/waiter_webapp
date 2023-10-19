@@ -3,23 +3,10 @@
 
     <div id="admin-days-div">
         {{#each days}}
-        <div class="admin-weekday">
-            <h2 class="day-heading">{{days.day}}Monday</h2>
-            <p class="waiter-admin">{{waiters}}Sbahle</p>
+        <div class="admin-weekday" style="background-color: {{bgColor}};">
+            <h2 class="day-heading">{{day}}</h2>
             {{#each waiters}}
-            {{/each}}
-        </div>
-        <div class="admin-weekday">
-            <h2 class="day-heading">{{days.day}}Tuesday</h2>
-            <p class="waiter-admin">{{waiters}}Likho</p>
-            {{#each waiters}}
-            {{/each}}
-        </div>
-        <div class="admin-weekday">
-            <h2 class="day-heading">{{days.day}}Wednesday</h2>
-            <p class="waiter-admin">{{waiters}}Sbahle</p>
-            <p class="waiter-admin">{{waiters}}Lizwi</p>
-            {{#each waiters}}
+            <p class="waiter-admin">{{this}}</p>
             {{/each}}
         </div>
         {{/each}}

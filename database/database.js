@@ -97,16 +97,19 @@ export default function Database(db){
     }
 
     async function waitersAvailableToday(day){
-        let waitersAvailable = await db.manyOrNone(`SELECT days.day,
-                shifts.waiter_id,
-                waiters.name
+        let returnStruture = [];
+        let obj = {};
+
+        let waitersAvailable = await db.manyOrNone(`SELECT waiters.name
                 FROM days
                 JOIN shifts
                 ON days.id=shifts.day_id
                 JOIN waiters
                 ON waiters.id=shifts.waiter_id
                 WHERE day=$1;`, [day]);
-        //console.log(waitersAvailable);
+ 
+        // console.log(day+'list :', waitersAvailable);
+
         return waitersAvailable;
     }
 
