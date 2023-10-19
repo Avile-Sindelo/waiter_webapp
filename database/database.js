@@ -97,9 +97,6 @@ export default function Database(db){
     }
 
     async function waitersAvailableToday(day){
-        let returnStruture = [];
-        let obj = {};
-
         let waitersAvailable = await db.manyOrNone(`SELECT waiters.name
                 FROM days
                 JOIN shifts

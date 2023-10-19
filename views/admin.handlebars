@@ -1,6 +1,14 @@
 <div id="container">
     <h1 id="admin-heading"> These are the days with their available waiters</h1>
-
+    <div id="color-code-div">
+        <ul id="colors">
+            <li class="color-item"> Transparent - No waiter available </li>
+            <li class="color-item" id="red-text"> Red - 1 Waiter available</li>
+            <li class="color-item" id="orange-text"> Orange - 2 waiters available </li>
+            <li class="color-item" id="green-text"> Green - 3 waiters available </li>
+            <li class="color-item" id="purple-text"> Purple - More waiters than we need are available </li>
+        </ul>
+    </div>
     <div id="admin-days-div">
         {{#each days}}
         <div class="admin-weekday" style="background-color: {{bgColor}};">

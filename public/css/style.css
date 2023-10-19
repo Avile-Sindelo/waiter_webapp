@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:ital,wght@1,100&family=Caveat:wght@600&family=Exo+2:ital,wght@1,300&family=Gruppo&family=Handjet:wght@200;300&family=Kaushan+Script&family=Merienda:wght@300&family=Moo+Lah+Lah&family=Ultra&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:ital,wght@1,100&family=Caveat:wght@600&family=Exo+2:ital,wght@1,300&family=Gruppo&family=Handjet:wght@200;300&family=Kaushan+Script&family=Merienda:wght@300&family=Moo+Lah+Lah&family=Poppins:ital,wght@0,200;1,100&family=Ultra&display=swap');
 #select-days-div{
     margin: 0;
     padding: 0 5em 0 10em;
@@ -163,6 +163,8 @@
     padding: 1em 2em;
     border: 1px solid darkseagreen;
     width: fit-content;
+    border-radius: 10px;
+    box-shadow: 1px 15px 20px #26577C;
 }
 
 #admin-days-div{
@@ -177,6 +179,7 @@
     font-family: 'Alegreya Sans SC', sans-serif;
     font-weight: bolder;
     color: brown;
+    text-shadow: 1px 1px 1px #fff;
 }
 
 .waiter-admin{
@@ -184,6 +187,31 @@
     margin: 0 0 0 2em;
     font-family: 'Handjet', cursive;
     font-weight: bolder;
-    color: darkseagreen;
+    color: #fff;
     letter-spacing: 1px;
+    text-shadow: 1px 1px black;
+}
+
+.color-item{
+    text-align: end;
+    list-style-type: none;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+}
+
+#colors{
+    padding: 0 2em 0 0;
+}
+
+#red-text{
+    color: crimson;
+}
+#orange-text{
+    color: orange;
+}
+#green-text{
+    color: green;
+}
+#purple-text{
+    color: purple;
 }

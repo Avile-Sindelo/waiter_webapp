@@ -149,7 +149,7 @@ app.get('/admin', async function(req, res){
         dbWaiters.forEach(waiter => {
             myWaiters.push(waiter.name);
         });
-        console.log('Returned waiters : ', myWaiters);
+        
         data.waiters = myWaiters;
         if(myWaiters.length == 1){
             //red
@@ -165,16 +165,7 @@ app.get('/admin', async function(req, res){
             data.bgColor = 'purple';
         }
         myArr.push(data);
-    }    
-
-    console.log('Overall data ting: ', myArr);
-    
-    //loop over the weekdays array
-    // for(let k = 0; k < weekdays.length; k++){
-    //     data.waiters.push(weekdays[k].name);
-    //     console.log(data)
-    // }
-    // console.log('Overall data : ', myArr);
+    }
 
     res.render('admin', {days: myArr, week});
 });
