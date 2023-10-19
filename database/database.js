@@ -64,9 +64,9 @@ export default function Database(db){
 
     async function updateShift(waiterID, newDays){
         //make sure the days length is within limits
-        if(newDays.length < 1){
+        if(newDays.length < 3){
             return 'Not enough days were selected';
-        } else if(newDays.length > 3){
+        } else if(newDays.length > 5){
             return 'You have selected more days than allowed';
         } else {
             //loop through the array

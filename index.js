@@ -41,12 +41,14 @@ import { engine } from "express-handlebars";
 import bodyParser from "body-parser";
 import pgp from "pg-promise";
 import Database from "./database/database.js";
+import Waiters from "./waiters.js";
 
 const app = express();
 const connectionString = process.env.DATABASE_URL || 'postgres://kxtscboh:BuTUiYZKVdaTcmuaEy6zPR_oUwHiXgh1@silly.db.elephantsql.com/kxtscboh?ssl=true';
 const postgresP = pgp();
 const db = postgresP(connectionString);
 const database = Database(db);
+const waitersFactory = Waiters();
 
 let messages = {
     error: '',
@@ -76,16 +78,8 @@ app.get('/waiters/:username', async function(req, res){
         messages.success = '';
         //retrieve the days that were selected in the last session
         let days = await database.getWaiterDays(username);
-         
-        for(let i = 0; i < daysOfTheWeek.length; i++){
-            for(let j = 0; j < days.length; j++){
-                if(days[j] == daysOfTheWeek[i].day){
-                    //true
-                    // checkedDays[workdays[i]] = true;
-                    daysOfTheWeek[i].checked = true;
-                }
-            }
-        }
+ 
+        await waitersFactory.checkWaiterDays(days, daysOfTheWeek)
 
         res.render('select_days', {username: username, error: messages.error, succes:messages.success, days, daysOfTheWeek});
     } else { //New waiter
@@ -107,12 +101,28 @@ app.post('/waiters/:username', async function(req, res){
     let username = req.params;
     let daysOfTheWeek = await database.getWeekdays();
 
-   if(days.length > 3){
-        messages.error = 'You cannot select more than 3 days';
+
+   if(days.length < 3){
+        messages.error = 'You cannot select less than 3 days';
         messages.success = '';
 
+        //retrieve the days that were selected in the last session
+        let days = await database.getWaiterDays(username.username);
+
+        await waitersFactory.checkWaiterDays(days, daysOfTheWeek);
+
         res.render('select_days', {username: username.username, success: messages.success, error: messages.error, daysOfTheWeek})
-    } else {
+    } else if(days.length > 5){
+        messages.error = 'You cannot select more than 5 days';
+        messages.success = '';
+
+        //retrieve the days that were selected in the last session
+        let days = await database.getWaiterDays(username.username);
+         
+        await waitersFactory.checkWaiterDays(days, daysOfTheWeek);
+
+        res.render('select_days', {username: username.username, success: messages.success, error: messages.error, daysOfTheWeek})
+    }else {
        //Check if the waiter is a duplicate
        let duplicate = await database.waiterAlreadyExists(username.username);
        let waiterID = await database.getWaiterId(username.username);
