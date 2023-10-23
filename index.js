@@ -182,8 +182,9 @@ app.get('/admin', async function(req, res){
     res.render('admin', {days: myArr, week, waitersAvailable});
 });
 
-app.post('/admin/movewaiter/', async function(req, res){
+app.post('/admin/movewaiter/:waiter', async function(req, res){
     console.log(req.query);
+    res.redirect('admin', {days: myArr, week, waitersAvailable});
 });
 
 // app.post('/waiter_reg/', function(req, res){
