@@ -19,4 +19,22 @@
         </div>
         {{/each}}
     </div>
+
+    <form action="/admin/movewaiter/" method="POST">
+        <label for="move"> Move </label>
+        <select>
+            <option disabled selected>Select waiter</option>
+            {{#each waitersAvailable}}
+            <option value={{name}} name="name">{{name}}</option>
+            {{/each}}
+        </select>
+        <label for="To">To</label>
+        <select>
+            <option disabled selected>New day</option>
+            {{#each week}}
+            <option value={{day}} name="day">{{day}}</option>
+            {{/each}}
+        </select>
+        <button type="submit">Submit</button>
+    </form>
 </div>

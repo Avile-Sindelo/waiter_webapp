@@ -101,7 +101,7 @@ app.post('/waiters/:username', async function(req, res){
     let username = req.params;
     let daysOfTheWeek = await database.getWeekdays();
 
-
+    
    if(days.length < 3){
         messages.error = 'You cannot select less than 3 days';
         messages.success = '';
@@ -177,7 +177,13 @@ app.get('/admin', async function(req, res){
         myArr.push(data);
     }
 
-    res.render('admin', {days: myArr, week});
+    let waitersAvailable = await database.getAvailableWaiters();
+
+    res.render('admin', {days: myArr, week, waitersAvailable});
+});
+
+app.post('/admin/movewaiter/', async function(req, res){
+    console.log(req.query);
 });
 
 // app.post('/waiter_reg/', function(req, res){
