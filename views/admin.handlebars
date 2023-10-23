@@ -23,14 +23,14 @@
     <form action="/admin/movewaiter/" method="POST" id="waiter-update-div">
         <h2 id="update-heading">Select a waiter and shift to another day below</h2>
         <label for="move" class="update-text"> Move </label>
-        <select>
+        <select id="select-waiter" name="waiter">
             <option disabled selected class="disabled-option">Select waiter</option>
             {{#each waitersAvailable}}
             <option value={{name}} name="name">{{name}}</option>
             {{/each}}
         </select>
         <label for="To" class="update-text">To</label>
-        <select>
+        <select id="select-day" name="newDay">
             <option disabled selected class="disabled-option">New day</option>
             {{#each week}}
             <option value={{day}} name="day">{{day}}</option>
