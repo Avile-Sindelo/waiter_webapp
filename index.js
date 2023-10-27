@@ -104,9 +104,7 @@ app.get('/waiters/:username', async function(req, res){
         messages.error = 'Please make sure you enter a valid name';
         messages.success = '';
 
-        console.log(messages)
-
-        res.redirect('/');
+        res.render('index', {invalidName: messages.error});
     }
 
 });

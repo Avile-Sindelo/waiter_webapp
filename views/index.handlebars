@@ -9,7 +9,7 @@
     <p id="short-descr">
         Recieve a warm welcome to the Lande's Coffee Shop waiter registration system.
     </p>
-
+    <h2 id="invalid-name">{{invalidName}}</h2>
     <p id="instructions">
         Please got the route "/waiters/your_name". <br>
         But you will need to replace "your_name" on the route with your actual first name.<br>
@@ -18,3 +18,13 @@
         If you wish to update your working days, you can click on the "Update" button that is available on the day selection screen.
     </p>
 </div>
+
+<script>
+    let invalid = document.querySelector('#invalid-name');
+
+    if(invalid.textContent != ''){
+        setTimeout(function(){
+            invalid.textContent = '';
+        }, 3000)
+    }
+</script>

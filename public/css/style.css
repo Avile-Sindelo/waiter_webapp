@@ -277,3 +277,10 @@ option{
     font-weight: bolder;
     letter-spacing: 1px;
 }
+
+#invalid-name{
+    color: crimson;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bolder;
+}

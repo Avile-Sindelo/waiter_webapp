@@ -69,17 +69,6 @@ export default function Database(db){
         } else if(newDays.length > 5){
             return 'You have selected more days than allowed';
         } else {
-            //loop through the array
-            // for(let i = 0; i < newDays.length; i++){
-            //     let dayID = await getDayId(newDays[i]);
-            //    // update the SHIFTS table with the "i" element of the array 
-            //     await db.none(`UPDATE shifts
-            //     SET day_id = $1
-            //     WHERE waiter_id=$2;`, [dayID.id , waiterID]);
-
-            //     console.log('Old shift day : ', newDays[i]);
-            //     console.log('ID of iteration '+ i + ': ', dayID.id);
-            // }
 
             //delete the previoud shift of the specific user
             await db.none('delete from shifts where waiter_id=$1', waiterID);
@@ -116,6 +105,11 @@ export default function Database(db){
                         WHERE waiter_id=$2 AND day_id=$3`, [newDayId, waiterId, oldDayId]);
     }
 
+    async function resetApp(){
+        await db.none('DELETE FROM shifts;');
+        await db.none('DELETE FROM waiters;');
+    }
+
     return {
         waiterAlreadyExists,
         getDayId,
@@ -129,6 +123,7 @@ export default function Database(db){
         updateShift,
         getAvailableWaiters,
         waitersAvailableToday,
-        moveWaiterToNewDay
+        moveWaiterToNewDay,
+        resetApp
     }
 }
