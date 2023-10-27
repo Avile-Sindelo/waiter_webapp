@@ -218,14 +218,16 @@
 
 #waiter-update-div{
     border: 1px solid darkslategrey;
-    margin: 0 25em;
+    margin: 5em 25em;
     padding: 5em;
+    border-radius: 5px;
 }
 
 .update-text, option{
     font-family: 'Poppins', sans-serif;
     color: darkseagreen;
     font-weight: 600;
+    margin: 0 0 0 4em;
 }
 
 .disabled-option{
@@ -258,4 +260,20 @@ option{
     color: darkkhaki;
     padding-top: 0;
     margin-top: 0;
+}
+
+#error{
+    color: red;
+    text-align: center;
+    font-family: 'Handjet', cursive;
+    font-weight: bolder;
+    letter-spacing: 1px;
+}
+
+#success{
+    color: green;
+    text-align: center;
+    font-family: 'Handjet', cursive;
+    font-weight: bolder;
+    letter-spacing: 1px;
 }

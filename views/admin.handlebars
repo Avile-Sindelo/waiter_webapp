@@ -9,6 +9,8 @@
             <li class="color-item" id="purple-text"> Purple - More waiters than we need are available </li>
         </ul>
     </div>
+    <p id="error">{{error}}</p>
+    <p id="success">{{success}}</p>
     <div id="admin-days-div">
         {{#each days}}
         <div class="admin-weekday" style="background-color: {{bgColor}};">
@@ -20,22 +22,50 @@
         {{/each}}
     </div>
 
-    <form action="/admin/movewaiter/" method="POST" id="waiter-update-div">
+    <form action="/admin" method="POST" id="waiter-update-div">
         <h2 id="update-heading">Select a waiter and shift to another day below</h2>
-        <label for="move" class="update-text"> Move </label>
+        <label for="move" class="update-text"> Move : </label>
         <select id="select-waiter" name="waiter">
             <option disabled selected class="disabled-option">Select waiter</option>
             {{#each waitersAvailable}}
             <option value={{name}} name="name">{{name}}</option>
             {{/each}}
         </select>
-        <label for="To" class="update-text">To</label>
-        <select id="select-day" name="newDay">
+
+        <label for="From" class="update-text">From :</label>
+        <select class="select-day" name="oldDay">
+            <option disabled selected class="disabled-option">Old day</option>
+            {{#each week}}
+            <option value={{day}} name="day">{{day}}</option>
+            {{/each}}
+        </select>
+
+        <label for="To" class="update-text">To :</label>
+        <select class="select-day" name="newDay">
             <option disabled selected class="disabled-option">New day</option>
             {{#each week}}
             <option value={{day}} name="day">{{day}}</option>
             {{/each}}
         </select>
+
         <button type="submit" id="update-waiter-btn">Submit</button>
     </form>
 </div>
+
+<script>
+    let error = document.querySelector('#error');
+    let success = document.querySelector('#success');
+
+    if(error.textContent != ''){
+        setTimeout(function(){
+            error.textContent = '';
+        }, 4000)
+    }
+
+    if(success.textContent != ''){
+        setTimeout(function(){
+            success.textContent = '';
+        }, 4000)
+    }
+
+</script>

@@ -72,26 +72,43 @@ app.get('/waiters/:username', async function(req, res){
     let duplicateCondition = await database.waiterAlreadyExists(username);
     let daysOfTheWeek = await database.getWeekdays();
 
-    if(duplicateCondition){ //Already exists
-        console.log('This is the duplicate : ',  duplicateCondition);
-        messages.error = 'Waiter is already recorded in the system';
-        messages.success = '';
-        //retrieve the days that were selected in the last session
-        let days = await database.getWaiterDays(username);
- 
-        await waitersFactory.checkWaiterDays(days, daysOfTheWeek)
-
-        res.render('select_days', {username: username, error: messages.error, succes:messages.success, days, daysOfTheWeek});
-    } else { //New waiter
-        console.log('This is NOT a duplicate : ', duplicateCondition);
-        //clear previous messages
+    //validate the username
+    if(waitersFactory.validName(username)){
+        messages.success = `${username} successfully added to the waiters list`;
         messages.error = '';
+
+
+        if(duplicateCondition){ //Already exists
+    
+            messages.error = 'Waiter is already recorded in the system';
+            messages.success = '';
+            //retrieve the days that were selected in the last session
+            let days = await database.getWaiterDays(username);
+     
+            waitersFactory.checkWaiterDays(days, daysOfTheWeek)
+    
+            res.render('select_days', {username: username, error: messages.error, succes:messages.success, days, daysOfTheWeek});
+        } else { //New waiter
+          
+            //clear previous messages
+            messages.error = '';
+            messages.success = '';
+            // add the new waiter to the Waiters table
+            await database.addWaiter(username);
+            //render the view that allows for day selection
+            res.render('select_days', {username: username, error: messages.error, succes:messages.success, daysOfTheWeek});
+        }
+
+    } else {
+        //invalid name
+        messages.error = 'Please make sure you enter a valid name';
         messages.success = '';
-        // add the new waiter to the Waiters table
-        await database.addWaiter(username);
-        //render the view that allows for day selection
-        res.render('select_days', {username: username, error: messages.error, succes:messages.success, daysOfTheWeek});
+
+        console.log(messages)
+
+        res.redirect('/');
     }
+
 });
 
 app.post('/waiters/:username', async function(req, res){
@@ -109,7 +126,7 @@ app.post('/waiters/:username', async function(req, res){
         //retrieve the days that were selected in the last session
         let days = await database.getWaiterDays(username.username);
 
-        await waitersFactory.checkWaiterDays(days, daysOfTheWeek);
+        waitersFactory.checkWaiterDays(days, daysOfTheWeek);
 
         res.render('select_days', {username: username.username, success: messages.success, error: messages.error, daysOfTheWeek})
     } else if(days.length > 5){
@@ -119,7 +136,7 @@ app.post('/waiters/:username', async function(req, res){
         //retrieve the days that were selected in the last session
         let days = await database.getWaiterDays(username.username);
          
-        await waitersFactory.checkWaiterDays(days, daysOfTheWeek);
+        waitersFactory.checkWaiterDays(days, daysOfTheWeek);
 
         res.render('select_days', {username: username.username, success: messages.success, error: messages.error, daysOfTheWeek})
     }else {
@@ -135,66 +152,96 @@ app.post('/waiters/:username', async function(req, res){
                
        res.render('chosen_days', {days, username: username.username})
     }
-    
 });
+
 
 app.get('/admin', async function(req, res){
     //get the weekdays from the database
     let week = await database.getWeekdays();
-    let dbWaiters;
     
-    let myArr = [];
-
-    // console.log(week);
+    let dataStructure = []; 
+ 
     //loop over the days  
     for(let i = 0; i < week.length; i++){
-        let data = {
-            day: ''
-        };
+       
         //get the waiters available for each day
         let today = week[i].day;
-        let myWaiters = [];
-        data.day = today;
-        dbWaiters = await database.waitersAvailableToday(today);
+        let dayWaiters = [];
+        
+        let dbWaiters = await database.waitersAvailableToday(today); //tricky part
         dbWaiters.forEach(waiter => {
-            myWaiters.push(waiter.name);
+            dayWaiters.push(waiter.name);
         });
         
-        data.waiters = myWaiters;
-        if(myWaiters.length == 1){
-            //red
-            data.bgColor = 'crimson';
-        } else if(myWaiters.length < 3 && myWaiters.length > 1){
-            //under subscribed
-            data.bgColor = 'orange';
-        } else if(myWaiters.length == 3){
-            //perfect
-            data.bgColor = 'green';
-        } else if(myWaiters.length > 3){
-            //Over subscribed
-            data.bgColor = 'purple';
-        }
-        myArr.push(data);
+        let dayData = waitersFactory.getAdminDay(today, dayWaiters);
+        //populate the data structure with the return day data
+        dataStructure.push(dayData);
     }
 
-    let waitersAvailable = await database.getAvailableWaiters();
+    //get the waiters available for the week - needed by the Shift-waiter functionality
+    let waitersAvailable = await database.getAvailableWaiters(); 
 
-    res.render('admin', {days: myArr, week, waitersAvailable});
+    res.render('admin', {days: dataStructure, week, waitersAvailable});
 });
 
-app.post('/admin/movewaiter/', async function(req, res){
-    console.log('Selected waiter :', req.body.waiter);
-    console.log('New day :', req.body.newDay);
+app.post('/admin', async function(req, res){
     let waiterName = req.body.waiter;
+    let oldDay = req.body.oldDay;
     let newDay = req.body.newDay;
-    res.render('admin');
-});
 
-// app.post('/waiter_reg/', function(req, res){
-//     console.log(req.body.username);
-//     let username =  req.body.username;
-//     res.render('select_days', {username: username});
-// })
+    //delete later - refactor to a function
+    let week = await database.getWeekdays(); 
+    
+    //get the waiter ID
+    let waiterID = await database.getWaiterId(waiterName);
+    //get the old day ID
+    let oldDayID = await database.getDayId(oldDay);
+    //get the new day ID
+    let newDayID = await database.getDayId(newDay);
+    //get the waiter's days
+    let waiterDays = await database.getWaiterDays(waiterName);
+
+    if(oldDay == newDay){
+        messages.error = 'Please make sure you move a waiter between different days';
+        messages.success = '';
+        
+       
+    } else if(!(waiterDays.includes(oldDay)) || waiterDays.includes(newDay)){
+        messages.error = 'Please make sure to move the waiter from a valid day';
+        messages.success = '';
+  
+      
+    } else {
+        await database.moveWaiterToNewDay(waiterID.id, oldDayID.id, newDayID.id);
+        messages.success = `${waiterName} successfully moved from ${oldDay} to ${newDay}`;
+        messages.error = '';  
+
+    }
+    
+    let dataStructure = []; 
+ 
+    //loop over the days  
+    for(let i = 0; i < week.length; i++){
+       
+        //get the waiters available for each day
+        let today = week[i].day;
+        let dayWaiters = [];
+        
+        let dbWaiters = await database.waitersAvailableToday(today); 
+        dbWaiters.forEach(waiter => {
+            dayWaiters.push(waiter.name);
+        });
+        
+        let dayData = waitersFactory.getAdminDay(today, dayWaiters);
+        //populate the data structure with the return day data
+        dataStructure.push(dayData);
+    }
+
+    //get the waiters available for the week - needed by the Shift-waiter functionality
+    let waitersAvailable = await database.getAvailableWaiters(); 
+    
+    res.render('admin', {days: dataStructure ,  success: messages.success, error: messages.error, week, waitersAvailable});
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, function(){

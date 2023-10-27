@@ -110,6 +110,12 @@ export default function Database(db){
         return waitersAvailable;
     }
 
+    async function moveWaiterToNewDay(waiterId, oldDayId, newDayId){
+        await db.none(`UPDATE shifts
+                        SET day_id=$1
+                        WHERE waiter_id=$2 AND day_id=$3`, [newDayId, waiterId, oldDayId]);
+    }
+
     return {
         waiterAlreadyExists,
         getDayId,
@@ -122,6 +128,7 @@ export default function Database(db){
         getWeekdays,
         updateShift,
         getAvailableWaiters,
-        waitersAvailableToday
+        waitersAvailableToday,
+        moveWaiterToNewDay
     }
 }
