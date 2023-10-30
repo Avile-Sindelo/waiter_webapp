@@ -73,4 +73,49 @@ describe('Waiter webapp tests', function(){
         let result2 = await database.getWaiterDays('Steve');
         assert.deepEqual(result2, updatedShift);
     });
+
+    it('should test if you are able to reset the app', async function(){
+        //Database instance
+        let database = Database(db);
+
+        //result 1
+        let result1 = [];
+        assert.deepEqual(result1, await database.getAvailableWaiters());
+
+        //Add a two waiters
+        await database.addWaiter('Khayone');
+        await database.addWaiter('Asive');
+        
+        //Get the ID of the two waiters
+        let khayoneID = await database.getWaiterId('Khayone');
+        let asiveID = await database.getWaiterId('Asive');
+
+        let khayoneInitial = ['Monday', 'Thursday', 'Friday', 'Sunday'];
+        let asiveInitial = ['Wednesday', 'Thursday', 'Sunday'];
+
+        //result 2
+        let result2 = [{id: khayoneID.id, name: 'Khayone'}, {id: asiveID.id, name: 'Asive'}];
+        let testOneWaiters = await database.getAvailableWaiters()
+
+        assert.deepEqual(result2, testOneWaiters);
+
+
+        //add the days on the shifts
+        await database.addShift(khayoneID.id, khayoneInitial);
+        await database.addShift(asiveID.id, asiveInitial);
+
+        //Test the shifts
+        
+        assert.deepEqual(khayoneInitial, await database.getWaiterDays('Khayone'));
+        assert.deepEqual(asiveInitial, await database.getWaiterDays('Asive'));
+
+        //Reset the App
+
+        await database.resetApp();
+
+        //result 3
+        let result3 = [];
+        assert.deepEqual(result3, await database.getAvailableWaiters());
+
+    });
 })
