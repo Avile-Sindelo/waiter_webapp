@@ -241,6 +241,29 @@ app.post('/admin', async function(req, res){
     res.render('admin', {days: dataStructure ,  success: messages.success, error: messages.error, week, waitersAvailable});
 });
 
+app.post('/reset', async function(req, res){
+    //extract the confirm from the req - boolean
+    console.log('Confirm value : ' , req.body)
+    // let confirmed = function(){
+    //     confirm('Are you sure you want to reset the App?')
+    // } 
+    // //if confirmed
+    // if(confirmed()){
+    //     //reset the database
+    //     await database.resetApp();
+    //     //messages
+    //     messages.error = '';
+    //     messages.success = 'The App has been successfully Reset.';
+
+    // }
+    
+
+    // console.log('App reset success!!');
+        
+    //redirect to the admin view
+    res.redirect('/admin')
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, function(){
     console.log(`Server running at port : ${PORT}`)

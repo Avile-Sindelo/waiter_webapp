@@ -50,6 +50,11 @@
 
         <button type="submit" id="update-waiter-btn">Submit</button>
     </form>
+
+    <form action="/reset" method="POST" id="reset-form">
+    
+    <button type="submit" id="reset-btn">Reset App</button>
+    </form>
 </div>
 
 <script>
@@ -67,5 +72,18 @@
             success.textContent = '';
         }, 4000)
     }
+
+    let resetBtn = document.querySelector('#reset-btn');
+
+    let confirmReset = function (){
+        confirm('Are you sure you want to reset the app?');
+    };
+    
+    let confirmed = confirmReset();
+
+   {{!-- resetBtn.addEventListener('click', function(){
+        console.log(confirmed)
+   }); --}}
+
 
 </script>
