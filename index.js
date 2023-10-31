@@ -243,12 +243,13 @@ async function getDataStructure(week){
 }
 
 app.post('/reset', async function(req, res){
+    let week = await database.getWeekdays();
     //reset the database
     await database.resetApp();
     messages.error = '';
     messages.success = 'All waiter records have been deleted.';        
     //redirect to the admin view
-    res.redirect('/admin')
+    res.render('admin', {days: await getDataStructure(week), success: messages.success, error: messages.error})
 });
 
 const PORT = process.env.PORT || 5000;
