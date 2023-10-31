@@ -284,3 +284,27 @@ option{
     font-family: 'Poppins', sans-serif;
     font-weight: bolder;
 }
+
+#reset-form{
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4em 30em;
+}
+
+#reset-btn{
+    padding: .6em 4em;
+    border-radius: 5px;
+    background-color: coral;
+    color: lightgray;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bolder;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+#reset-btn:hover{
+    background-color: crimson;
+    color: #fff;
+}

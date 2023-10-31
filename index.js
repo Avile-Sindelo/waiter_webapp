@@ -156,30 +156,11 @@ app.post('/waiters/:username', async function(req, res){
 app.get('/admin', async function(req, res){
     //get the weekdays from the database
     let week = await database.getWeekdays();
-    
-    let dataStructure = []; 
- 
-    //loop over the days  
-    for(let i = 0; i < week.length; i++){
-       
-        //get the waiters available for each day
-        let today = week[i].day;
-        let dayWaiters = [];
-        
-        let dbWaiters = await database.waitersAvailableToday(today); //tricky part
-        dbWaiters.forEach(waiter => {
-            dayWaiters.push(waiter.name);
-        });
-        
-        let dayData = waitersFactory.getAdminDay(today, dayWaiters);
-        //populate the data structure with the return day data
-        dataStructure.push(dayData);
-    }
 
     //get the waiters available for the week - needed by the Shift-waiter functionality
     let waitersAvailable = await database.getAvailableWaiters(); 
 
-    res.render('admin', {days: dataStructure, week, waitersAvailable});
+    res.render('admin', {days: await getDataStructure(week), week, waitersAvailable});
 });
 
 app.post('/admin', async function(req, res){
@@ -189,57 +170,77 @@ app.post('/admin', async function(req, res){
 
     //delete later - refactor to a function
     let week = await database.getWeekdays(); 
-    
-    //get the waiter ID
-    let waiterID = await database.getWaiterId(waiterName);
-    //get the old day ID
-    let oldDayID = await database.getDayId(oldDay);
-    //get the new day ID
-    let newDayID = await database.getDayId(newDay);
-    //get the waiter's days
-    let waiterDays = await database.getWaiterDays(waiterName);
 
-    if(oldDay == newDay){
-        messages.error = 'Please make sure you move a waiter between different days';
+    //Make sure values were passed in
+    if(waiterName == undefined || oldDay == undefined || newDay == undefined){
+        messages.error = 'Please select a waiter, a day from which to move, and a day to move to';
         messages.success = '';
+
+         //get the waiters available for the week - needed by the Shift-waiter functionality
+         let waitersAvailable = await database.getAvailableWaiters(); 
         
-       
-    } else if(!(waiterDays.includes(oldDay)) || waiterDays.includes(newDay)){
-        messages.error = 'Please make sure to move the waiter from a valid day';
-        messages.success = '';
-  
-      
+         res.render('admin', {days: await getDataStructure(week) ,  success: messages.success, error: messages.error, week, waitersAvailable});
+
     } else {
-        await database.moveWaiterToNewDay(waiterID.id, oldDayID.id, newDayID.id);
-        messages.success = `${waiterName} successfully moved from ${oldDay} to ${newDay}`;
-        messages.error = '';  
 
+        //get the waiter ID
+        let waiterID = await database.getWaiterId(waiterName);
+        //get the old day ID
+        let oldDayID = await database.getDayId(oldDay);
+        //get the new day ID
+        let newDayID = await database.getDayId(newDay);
+        //get the waiter's days
+        let waiterDays = await database.getWaiterDays(waiterName);
+    
+        if(oldDay == newDay){
+            messages.error = 'Please make sure you move a waiter between different days';
+            messages.success = '';
+            
+           
+        } else if(!(waiterDays.includes(oldDay)) || waiterDays.includes(newDay)){
+            messages.error = 'Please make sure to move the waiter from a valid day';
+            messages.success = '';
+      
+          
+        } else {
+            await database.moveWaiterToNewDay(waiterID.id, oldDayID.id, newDayID.id);
+            messages.success = `${waiterName} successfully moved from ${oldDay} to ${newDay}`;
+            messages.error = '';  
+    
+        }
+                
+
+        //get the waiters available for the week - needed by the Shift-waiter functionality
+        let waitersAvailable = await database.getAvailableWaiters(); 
+        
+        res.render('admin', {days: await getDataStructure(week) ,  success: messages.success, error: messages.error, week, waitersAvailable});
     }
     
-    let dataStructure = []; 
- 
-    //loop over the days  
-    for(let i = 0; i < week.length; i++){
-       
-        //get the waiters available for each day
-        let today = week[i].day;
-        let dayWaiters = [];
-        
-        let dbWaiters = await database.waitersAvailableToday(today); 
-        dbWaiters.forEach(waiter => {
-            dayWaiters.push(waiter.name);
-        });
-        
-        let dayData = waitersFactory.getAdminDay(today, dayWaiters);
-        //populate the data structure with the return day data
-        dataStructure.push(dayData);
-    }
 
-    //get the waiters available for the week - needed by the Shift-waiter functionality
-    let waitersAvailable = await database.getAvailableWaiters(); 
-    
-    res.render('admin', {days: dataStructure ,  success: messages.success, error: messages.error, week, waitersAvailable});
 });
+
+async function getDataStructure(week){
+    let dataStructure = []; 
+     
+        //loop over the days  
+        for(let i = 0; i < week.length; i++){
+           
+            //get the waiters available for each day
+            let today = week[i].day;
+            let dayWaiters = [];
+            
+            let dbWaiters = await database.waitersAvailableToday(today); 
+            dbWaiters.forEach(waiter => {
+                dayWaiters.push(waiter.name);
+            });
+            
+            let dayData = waitersFactory.getAdminDay(today, dayWaiters);
+            //populate the data structure with the return day data
+            dataStructure.push(dayData);
+        }
+
+        return dataStructure;
+}
 
 app.post('/reset', async function(req, res){
     //reset the database
