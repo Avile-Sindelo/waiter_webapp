@@ -242,24 +242,10 @@ app.post('/admin', async function(req, res){
 });
 
 app.post('/reset', async function(req, res){
-    //extract the confirm from the req - boolean
-    console.log('Confirm value : ' , req.body)
-    // let confirmed = function(){
-    //     confirm('Are you sure you want to reset the App?')
-    // } 
-    // //if confirmed
-    // if(confirmed()){
-    //     //reset the database
-    //     await database.resetApp();
-    //     //messages
-    //     messages.error = '';
-    //     messages.success = 'The App has been successfully Reset.';
-
-    // }
-    
-
-    // console.log('App reset success!!');
-        
+    //reset the database
+    await database.resetApp();
+    messages.error = '';
+    messages.success = 'All waiter records have been deleted.';        
     //redirect to the admin view
     res.redirect('/admin')
 });
