@@ -227,7 +227,7 @@
     font-family: 'Poppins', sans-serif;
     color: darkseagreen;
     font-weight: 600;
-    margin: 0 0 0 4em;
+    margin: 0 0 0 5em;
 }
 
 .disabled-option{
@@ -241,7 +241,7 @@ option{
 
 #update-waiter-btn{
     padding: .5em 2em;
-    margin: 2em 0 0 5em;
+    margin: 2em 0 0 6em;
     border-radius: 5px;
     font-family: 'Poppins', sans-serif;
     font-weight: bolder;
@@ -307,4 +307,36 @@ option{
 #reset-btn:hover{
     background-color: crimson;
     color: #fff;
+}
+
+#enter-name-heading{
+    color: #add8e6;
+    font-family: 'Poppins', sans-serif;
+}
+
+#enter-name-btn{
+    border: none;
+    background-color: #26577C;
+    padding: .5em 2em;
+    margin: 0 2em;
+    color: lightgray;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 5px;
+    letter-spacing: 1px;
+}
+#enter-name-btn:hover{
+    background-color: lightgray;
+    color: #26577C;
+    transform: scale(1.02);
+    font-weight: 900;
+}
+
+#enter-name-input{
+    padding: .5em 2em;
+    border-radius: 5px;
+    border: none;
+}
+
+#enter-name-form{
+    margin: 3em 0 0 7em;
 }

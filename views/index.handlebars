@@ -1,8 +1,4 @@
-{{!-- <form action="/waiters/:username" method="GET">
-    <h3> Hello there, please register for the waiter system with your details below </h3>
-    <input type="text" name="username" value="" placeholder="Enter your name">
-    <button type="submit">submit</button> 
-</form> --}}
+
 
 <div id="index-div">
     <h1 id="index-heading">Welcome to <label id="lande">Lukum-Lande</label>'s Coffee Shop</h1>
@@ -11,12 +7,18 @@
     </p>
     <h2 id="invalid-name">{{invalidName}}</h2>
     <p id="instructions">
-        Please got the route "/waiters/your_name". <br>
+        Please go the route "/waiters/your_name". <br>
         But you will need to replace "your_name" on the route with your actual first name.<br>
         The route will take you to the screen in which you can select your desired working days, and submit.<br>
         <br>
         If you wish to update your working days, you can click on the "Update" button that is available on the day selection screen.
     </p>
+    
+    {{!-- <form action="/waiters" method="POST" id="enter-name-form">
+    <h3 id="enter-name-heading"> Hello there, please enter your name for the waiter system below </h3>
+    <input type="text" name="waitername" value="" placeholder="Enter your name" id="enter-name-input">
+    <button type="submit" id="enter-name-btn">Submit</button> 
+</form> --}}
 </div>
 
 <script>
@@ -25,6 +27,6 @@
     if(invalid.textContent != ''){
         setTimeout(function(){
             invalid.textContent = '';
-        }, 3000)
+        }, 4500)
     }
 </script>

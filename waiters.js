@@ -42,10 +42,15 @@ export default function Waiters(){
         return pattern.test(username);     
     }
 
+    function capitalizeName(waiterName){
+        return waiterName[0].toUpperCase() + waiterName.slice(1);
+    }
+
     return {
         checkWaiterDays,
         getColor,
         validName,
-        getAdminDay
+        getAdminDay,
+        capitalizeName
     }
 }
