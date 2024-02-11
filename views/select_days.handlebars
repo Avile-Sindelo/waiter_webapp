@@ -5,11 +5,11 @@
         <p id="error-message">{{error}}</p>
 
         <div id="days">
-        {{#each daysOfTheWeek}}
-            <label for={{day}} class="workday"> {{day}} </label>
-            <input type="checkbox" value={{day}} name="days" {{#if checked}} checked {{/if}}>
-            
-        {{/each}}
+            {{#each daysOfTheWeek}}
+                <label for={{day}} class="workday"> {{day}} </label>
+                <input type="checkbox" value={{day}} name="days" {{#if checked}} checked {{/if}}>
+                
+            {{/each}}
             <button type="submit" id="submit-days-btn"> Submit </button>
         </div>
 

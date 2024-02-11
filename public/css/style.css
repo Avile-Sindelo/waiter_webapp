@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:ital,wght@1,100&family=Caveat:wght@600&family=Exo+2:ital,wght@1,300&family=Gruppo&family=Handjet:wght@200;300&family=Kaushan+Script&family=Merienda:wght@300&family=Moo+Lah+Lah&family=Poppins:ital,wght@0,200;1,100&family=Ultra&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abel&family=Alegreya+Sans+SC&family=Caveat&family=Comfortaa:wght@300&family=Exo+2:wght@200&family=Gruppo&family=Handjet&family=Inconsolata:wght@500&family=Merienda&family=Miltonian+Tattoo&family=Montserrat:ital@1&family=Playfair+Display&family=Poppins:wght@200&family=Protest+Revolution&family=Rubik+Glitch+Pop&family=Ultra&display=swap');
+
 #select-days-div{
     margin: 0;
     padding: 0 5em 0 10em;
@@ -17,6 +18,18 @@
 #error-message{
     color: crimson;
     padding: 0 0 0 10em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+}
+
+#success-message{
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+}
+
+hr{
+    margin: 0 4em;
+    box-shadow: .6px .6px 1px coral;
 }
 
 #submit-days-btn{
@@ -39,6 +52,7 @@
     font-weight: bolder;
     color: darkcyan;
     padding: 0 0 0 2.5em;
+    text-shadow: .4px .4px .4px #fff;
 }
 
 #page-heading{
@@ -46,12 +60,14 @@
     font-size: 160%;
     padding: 0 0 0 3em;
     color:saddlebrown;
+    text-shadow: .4px .4px .4px #fff;
 }
 
 .workday{
     font-family: 'Exo 2', sans-serif;
     font-weight: 600;
     color: #333;
+    text-shadow: .4px .4px .4px #fff;
 }
 
 #chosen-days-div{
@@ -66,16 +82,18 @@
 }
 
 #chosen-days-heading{
-    font-family: 'Ultra', serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bolder;
     color: #6A9C89;
-    text-shadow: 1px 1px 1px #333;
+    text-shadow: .6px .6px .6px #333;
+    text-align: center;
 }
 
 .chosen-day{
     font-family: 'Merienda', cursive;
     font-weight: bolder;
     color: #333;
+    text-shadow: .4px .4px .4px #fff;
 }
 
 #navigation-div{
@@ -94,6 +112,8 @@
 
 #chosen-days-to-home-btn{
     background-color: #6A9C89;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
 }
 #chosen-days-to-home-btn:hover{
     border: 1px solid #6A9C89;
@@ -103,6 +123,8 @@
 
 #chosen-days-to-update-btn{
     background-color: #F39F5A;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
 }
 #chosen-days-to-update-btn:hover{
     border: 1px solid #F39F5A;
@@ -150,12 +172,14 @@
     background-image: url('../images/waiterTwo.jpg');
     background-size: contain;
     background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 #admin-heading{
     text-align: center;
     color: #333;
     font-family: 'Gruppo', sans-serif;
+    text-shadow: .4px .4px .4px #fff;
 }
 
 .admin-weekday{
@@ -219,7 +243,7 @@
 #waiter-update-div{
     border: 1px solid darkslategrey;
     margin: 5em 25em;
-    padding: 5em;
+    padding: 5em 1em;
     border-radius: 5px;
 }
 
@@ -232,16 +256,20 @@
 
 .disabled-option{
     color: black;
-    font-weight: 900;
 }
 
 option{
     padding: 2em 4em;
 }
 
+select{
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+}
+
 #update-waiter-btn{
     padding: .5em 2em;
-    margin: 2em 0 0 6em;
+    margin: 3em 0 0 20em;
     border-radius: 5px;
     font-family: 'Poppins', sans-serif;
     font-weight: bolder;
@@ -256,10 +284,13 @@ option{
 }
 
 #update-heading{
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Gruppo', sans-serif;
+    font-weight: bold;
+    font-size: 200%;
     color: darkkhaki;
-    padding-top: 0;
-    margin-top: 0;
+    margin: 3em 0 0 0;
+    text-align: center;
+    text-shadow: .4px .4px .4px white;
 }
 
 #error{
@@ -293,8 +324,13 @@ option{
     margin: 4em 30em;
 }
 
+#index-heading, #lande{
+    text-shadow: 1px 1px 1px white;
+}
+
 #reset-btn{
     padding: .6em 4em;
+    margin: 0 0 0 11em;
     border-radius: 5px;
     background-color: coral;
     color: lightgray;
@@ -339,4 +375,87 @@ option{
 
 #enter-name-form{
     margin: 3em 0 0 7em;
+}
+
+@media screen AND (max-width: 900px){
+    #index-div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-size: contain;
+        background: #333;
+        margin: 0;
+    }
+
+    #instructions{
+        margin: 0 0 5em 0;
+    }
+
+    #short-descr{
+        margin: 0;
+    }
+
+    #select-days-div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    #submit-days-btn{
+        width: fit-content;
+        margin: 2em 0 0 2em;
+    }
+
+    #chosen-days-to-home-btn{
+        margin: 0 0 0 3em;
+    }
+
+    #chosen-days-to-update-btn{
+        padding: .5em 2em;
+    }
+
+    #chosen-days-div{
+        background-attachment: fixed;
+    }
+
+    #container{
+        display: flex;
+        flex-direction: column;
+    }
+
+    #admin-days-div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .admin-weekday{
+        margin: 1em 2em;
+    }
+
+    #waiter-update-div{
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    #update-waiter-btn{
+        margin: 1em 0;
+    }
+
+    #reset-btn{
+       margin: 0 0 0 -55em;
+    }
+
+    hr{
+        margin: 0;
+    }
+
+    #update-heading{
+        padding: 0 0 1em 0;
+    }
 }
