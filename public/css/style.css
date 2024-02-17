@@ -458,4 +458,13 @@ select{
     #update-heading{
         padding: 0 0 1em 0;
     }
+
+    #error-message, #success-message{
+        text-align: center;
+    }
+
+    #page-heading{
+        color: #26577C;
+        text-shadow: #333;
+    }
 }
