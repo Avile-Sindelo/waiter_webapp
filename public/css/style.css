@@ -466,7 +466,7 @@ select{
 
     #page-heading{
         color: #26577C;
-        text-shadow: #333;
+        text-shadow: 1px 1px khaki;
     }
 
     .workday{
