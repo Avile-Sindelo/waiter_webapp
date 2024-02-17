@@ -473,4 +473,13 @@ select{
         color: #fff;
         text-shadow: 2px 2px #333;
     }
+
+    .chosen-day{
+        color: khaki;
+        text-shadow: 2px 2px #333;
+    }
+
+    #chosen-days-heading{
+        text-shadow: 1.5px 1.5px white;
+    }
 }
