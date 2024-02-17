@@ -377,6 +377,7 @@ select{
     margin: 3em 0 0 7em;
 }
 
+
 @media screen AND (max-width: 900px){
     #index-div{
         display: flex;
@@ -459,8 +460,8 @@ select{
         padding: 0 0 1em 0;
     }
 
-    #error-message, #success-message{
-        text-align: center;
+    #error-message, #success-message{ 
+        padding: 3em 3em 3em 5em;
     }
 
     #page-heading{
