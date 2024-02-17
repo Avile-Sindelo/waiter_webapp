@@ -468,4 +468,9 @@ select{
         color: #26577C;
         text-shadow: #333;
     }
+
+    .workday{
+        color: #fff;
+        text-shadow: 2px 2px #333;
+    }
 }
