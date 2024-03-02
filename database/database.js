@@ -12,8 +12,8 @@ export default function Database(db){
         return await db.one('SELECT id FROM days WHERE day=$1; ', [day]);
     }
 
-    async function addWaiter(waiterName){
-        await db.none(`INSERT INTO waiters (name) VALUES($1)`, [waiterName]);
+    async function addWaiter(waiterName, email, password){
+        await db.none(`INSERT INTO waiters (name, email, password) VALUES($1 , $2, $3)`, [waiterName, email, password]);
     }
 
     async function getWaiterId(waiterName){
@@ -85,6 +85,14 @@ export default function Database(db){
         return await db.manyOrNone('select * from waiters')
     }
 
+    async function getWaiterDetails(name, email){
+        return await db.oneOrNone('SELECT * FROM waiters WHERE name=$1 AND email=$2', [name, email]);
+    }
+
+    async function getWaiterName(email){
+        return await db.oneOrNone('SELECT name FROM waiters WHERE email=$1', [email])
+    }
+
     async function waitersAvailableToday(day){
         let waitersAvailable = await db.manyOrNone(`SELECT waiters.name
                 FROM days
@@ -115,6 +123,7 @@ export default function Database(db){
         getDayId,
         addWaiter,
         getWaiterId,
+        getWaiterDetails,
         addShift,
         getWaiterDays,
         getTableContents,
@@ -124,6 +133,7 @@ export default function Database(db){
         getAvailableWaiters,
         waitersAvailableToday,
         moveWaiterToNewDay,
-        resetApp
+        resetApp,
+        getWaiterName
     }
 }

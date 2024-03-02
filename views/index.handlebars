@@ -6,27 +6,76 @@
         Recieve a warm welcome to the Lande's Coffee Shop waiter registration system.
     </p>
     <h2 id="invalid-name">{{invalidName}}</h2>
+    <h4 id="index-error-message">{{error}}</h4>
+    <h4 id="index-success-message">{{success}}</h4>
     <p id="instructions">
-        Please go the route "/waiters/your_name". <br>
-        But you will need to replace "your_name" on the route with your actual first name.<br>
-        The route will take you to the screen in which you can select your desired working days, and submit.<br>
+        Please note: the details to entered below will not be used beyond the demonstration of this web application's functionality.<br>
         <br>
-        If you wish to update your working days, you can click on the "Update" button that is available on the day selection screen.
+        They do not even need to be legitimate, they just need to be in their formats. 
+        <br><br><br><br><br><br>
+        Edit the URL and add '/days' at the end of it to view the registered waiters and their days from the admin side
     </p>
+    
+    <form action="/register" method="post" id="register-form">
+        <div id="register-or-login-div" class="register-field">
+            <div class="register-input">
+                <label for="name" class="login-label"> Name </label>
+                <input type="text" name="name" class="login-input" placeholder="e.g Mike" required>
+            </div>
+        </div>
+        <div id="register-or-login-div" class="register-field">
+            <div class="register-input">
+                <label for="email" class="login-label"> Email </label>
+                <input type="email" name="email" class="login-input" placeholder="e.g email@gmail.com" required>
+            </div>
+        </div>
+        <div id="register-or-login-div">
+            <div class="register-input">
+                <label for="password" class="login-label" class="register-field"> Enter password </label>
+                <input type="password" name="password" class="login-input" placeholder="****" required>
+            </div>
+        </div>
+
+        <div id="register-or-login-div" class="register-field">
+            <div class="register-input">
+                <label for="password" class="login-label"> Confirm password </label>
+                <input type="password" name="confirmPassword" class="login-input" placeholder="****" required>
+            </div>
+        </div>
+
+        <button type="submit" id="submit-register-btn">Register</button>
+    </form>
+
+    {{!-- <a href="/views/register.handlebars">Login</a> --}}
+
     
     {{!-- <form action="/waiters" method="POST" id="enter-name-form">
     <h3 id="enter-name-heading"> Hello there, please enter your name for the waiter system below </h3>
     <input type="text" name="waitername" value="" placeholder="Enter your name" id="enter-name-input">
     <button type="submit" id="enter-name-btn">Submit</button> 
 </form> --}}
-</di>
+</div>
 
 <script>
     let invalid = document.querySelector('#invalid-name');
+    let error = document.querySelector('#index-error-message');
+    let success = document.querySelector('#index-success-message');
 
     if(invalid.textContent != ''){
         setTimeout(function(){
             invalid.textContent = '';
+        }, 4500)
+    }
+
+    if(error.textContent != ''){
+        setTimeout(function(){
+            error.textContent = '';
+        }, 4500)
+    }
+
+    if(success.textContent != ''){
+        setTimeout(function(){
+            success.textContent = '';
         }, 4500)
     }
 </script>

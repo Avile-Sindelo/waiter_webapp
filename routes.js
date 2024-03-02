@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt';
+
 export default function Routes(waitersFactory, database){
 
     let messages = {
@@ -11,7 +13,7 @@ export default function Routes(waitersFactory, database){
         
     }
 
-   async function takeNameFromRoute(req, res){
+   async function addWaiterFromRoute(req, res){
             let username = req.params.username;
             let capitalName = waitersFactory.capitalizeName(username)
             let days = await database.getWaiterDays(capitalName);
@@ -58,8 +60,8 @@ export default function Routes(waitersFactory, database){
 
     /* async function takeNameFromInput(req, res){
             //extract the waiter name from the request object
-            let username = req.body.waitername;
-            let usernameUppercase = waitersFactory.capitalizeName(username);
+            let { name, email, password, confirmedPassword } = req.body;
+            let usernameUppercase = waitersFactory.capitalizeName(name);
         
             let days = await database.getWaiterDays(usernameUppercase);
             let daysOfTheWeek = await database.getWeekdays();
@@ -266,15 +268,112 @@ export default function Routes(waitersFactory, database){
     
             return dataStructure;
     }
+
+    async function handleRegister(req, res){
+        const { name, password, confirmPassword, email } = req.body;
+        let hashedPassword = '';
+        
+        console.log('name: ', name);
+        console.log('Email: ', email);
+        console.log('Password: ', password);
+        console.log('confirmed Password: ', confirmPassword);
+
+        //Verify the values & encrypt the password
+
+        
+        //passwords don't match 
+        if(password != confirmPassword){
+            //error 
+            messages.error = 'Passwords do not match!!!';
+            messages.success = '';
+            console.log(messages);
+
+            res.render('index', {error: messages.error, succes: messages.success});            
+        } else { //passwords DO match
+            //encrypt the password
+            
+            // Generate a salt
+            const saltRounds = 10;
+            
+            // Asynchronous function to hash the password
+            const hashPassword = async () => {
+                try {
+                    // Generate a salt
+                    const salt = await bcrypt.genSalt(saltRounds);
+
+                    // Hash the password with the generated salt
+                    hashedPassword = await bcrypt.hash(password, salt);
+
+                    // Store hashedPassword in the database or wherever you need to store it
+                    console.log('Hashed password:', hashedPassword);
+                    messages.success = 'Registration successful';
+                    messages.error = '';
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            };
+
+            await hashPassword();
+            
+            //Populate the database
+            await database.addWaiter(name, email, hashedPassword);
+            
+            //Render a view for to the login screen 
+            res.render('register', {username: name, error: messages.error, success: messages.success});
+        }
+
+        
+        // res.render('index', {error: messages.error, succes: messages.success});
+    } 
     
+    async function handleLogin(req, res){
+        const { email, password } = req.body;
+
+        // retrieve that name value from that view
+        const name = await database.getWaiterName(email);
+        if(name){
+            console.log(name.name);
+            console.log('Log name: ', name);
+            console.log('Log email: ', email);
+            console.log('Log password: ', password);
+            
+            //Get the list of users from the database
+            //check for the user that has email & password that match the ones in this scope
+            const user = await database.getWaiterDetails(name.name, email);
+            let daysOfTheWeek = await database.getWeekdays();
     
+            if (user) {
+                bcrypt.compare(password, user.password, (err, result) => {
+                    if (result) {
+                        console.log('Login successful');
+                        messages.success = 'Login successful!';
+                        messages.error = '';
+                        res.render('select_days', {daysOfTheWeek, username: user.name, success: messages.success});
+                    } else {
+                        console.log('Invalid password');
+                        messages.error = 'Invalid password';
+                        messages.success = '';
+                        res.render('register', {daysOfTheWeek, username: user.name, error: messages.error, success: messages.success});
+                    }
+                });
+    
+            } 
+
+        } else {
+            messages.error = 'User not found';
+                messages.success = '';
+                res.render('register', {error: messages.error, success: messages.success})
+        }
+    }
     
     return {
         renderIndex,
-        takeNameFromRoute,
+        addWaiterFromRoute,
         postWaiterDays,
         handleAdmin,
         changeWaiterSchedule,
-        handleReset
+        handleReset,
+        handleRegister,
+        handleLogin
     }
 }

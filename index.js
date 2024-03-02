@@ -43,6 +43,8 @@ import pgp from "pg-promise";
 import Database from "./database/database.js";
 import Waiters from "./waiters.js";
 import Routes from "./routes.js";
+import session from 'express-session';
+
 
 const app = express();
 const connectionString = process.env.DATABASE_URL || 'postgres://kxtscboh:BuTUiYZKVdaTcmuaEy6zPR_oUwHiXgh1@silly.db.elephantsql.com/kxtscboh?ssl=true';
@@ -56,13 +58,19 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', 'views');
 
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true
+}));
+
 app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.get('/', routes.renderIndex)
 
-app.get('/waiters/:username', routes.takeNameFromRoute);
+app.get('/waiters/:username', routes.addWaiterFromRoute);
 
 // app.post('/waiters', routes.takeNameFromInput);
 
@@ -74,6 +82,10 @@ app.get('/days', routes.handleAdmin);
 app.post('/days', routes.changeWaiterSchedule);
 
 app.post('/reset', routes.handleReset);
+
+app.post('/register', routes.handleRegister);
+
+app.post('/login', routes.handleLogin);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, function(){

@@ -3,6 +3,7 @@
         <h1 id="waiter-greeting">Hello {{username}}</h1>
         <h3 id="page-heading">Please select the days on which you are available to work below</h3>
         <p id="error-message">{{error}}</p>
+        <p id="reg-success-message">{{success}}</p>
 
         <div id="days">
             {{#each daysOfTheWeek}}
@@ -13,14 +14,13 @@
             <button type="submit" id="submit-days-btn"> Submit </button>
         </div>
 
-        <p id="success-message">{{success}}</p>
     </form>
 </div>
 
 
 <script>
     let error = document.querySelector('#error-message');
-    let success = document.querySelector('#success-message');
+    let success = document.querySelector('#reg-success-message');
 
     if(error.textContent != ''){
         setTimeout(function(){
