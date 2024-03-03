@@ -58,63 +58,6 @@ export default function Routes(waitersFactory, database){
             }   
     }
 
-    /* async function takeNameFromInput(req, res){
-            //extract the waiter name from the request object
-            let { name, email, password, confirmedPassword } = req.body;
-            let usernameUppercase = waitersFactory.capitalizeName(name);
-        
-            let days = await database.getWaiterDays(usernameUppercase);
-            let daysOfTheWeek = await database.getWeekdays();
-            
-            let duplicateCondition = await database.waiterAlreadyExists(usernameUppercase);
-        
-            //validate the username
-            if(waitersFactory.validName(usernameUppercase)){
-                messages.success = `${usernameUppercase} successfully added to the waiters list`;
-                messages.error = '';
-        
-        
-                if(duplicateCondition){ //Already exists
-            
-                    messages.error = 'Waiter is already recorded in the system';
-                    messages.success = '';
-                    //retrieve the days that were selected in the last session
-                    let days = await database.getWaiterDays(usernameUppercase);
-             
-                    waitersFactory.checkWaiterDays(days, daysOfTheWeek)
-            
-                    
-                } else { //New waiter
-                  
-                    //clear previous messages
-                    messages.error = '';
-                    messages.success = '';
-                    // add the new waiter to the Waiters table
-                    await database.addWaiter(usernameUppercase);
-                    
-                }
-        
-            } else {
-                //invalid name
-                messages.error = 'Please make sure you enter a valid name';
-                messages.success = '';
-        
-        
-                res.render('index', {invalidName: messages.error});
-            }
-        
-            if(await database.waiterAlreadyExists(usernameUppercase)){
-                waitersFactory.checkWaiterDays(days, daysOfTheWeek)
-                res.render('select_days', {username: usernameUppercase, error: messages.error, succes:messages.success, days, daysOfTheWeek});
-            } else {
-                //paste
-                //render the view that allows for day selection
-                res.render('select_days', {username: usernameUppercase, error: messages.error, succes:messages.success, daysOfTheWeek});
-            }    
-            
-        
-    } */
-
    async function postWaiterDays(req, res){
             //Retrieve the selected days from the selection screen
             let selected_days = req.body;
@@ -272,21 +215,12 @@ export default function Routes(waitersFactory, database){
     async function handleRegister(req, res){
         const { name, password, confirmPassword, email } = req.body;
         let hashedPassword = '';
-        
-        console.log('name: ', name);
-        console.log('Email: ', email);
-        console.log('Password: ', password);
-        console.log('confirmed Password: ', confirmPassword);
-
-        //Verify the values & encrypt the password
-
-        
+        //Verify the values & encrypt the passwor
         //passwords don't match 
         if(password != confirmPassword){
             //error 
             messages.error = 'Passwords do not match!!!';
             messages.success = '';
-            console.log(messages);
 
             res.render('index', {error: messages.error, succes: messages.success});            
         } else { //passwords DO match
@@ -305,7 +239,6 @@ export default function Routes(waitersFactory, database){
                     hashedPassword = await bcrypt.hash(password, salt);
 
                     // Store hashedPassword in the database or wherever you need to store it
-                    console.log('Hashed password:', hashedPassword);
                     messages.success = 'Registration successful';
                     messages.error = '';
                 } catch (error) {
@@ -332,11 +265,6 @@ export default function Routes(waitersFactory, database){
         // retrieve that name value from that view
         const name = await database.getWaiterName(email);
         if(name){
-            console.log(name.name);
-            console.log('Log name: ', name);
-            console.log('Log email: ', email);
-            console.log('Log password: ', password);
-            
             //Get the list of users from the database
             //check for the user that has email & password that match the ones in this scope
             const user = await database.getWaiterDetails(name.name, email);
@@ -345,12 +273,10 @@ export default function Routes(waitersFactory, database){
             if (user) {
                 bcrypt.compare(password, user.password, (err, result) => {
                     if (result) {
-                        console.log('Login successful');
                         messages.success = 'Login successful!';
                         messages.error = '';
                         res.render('select_days', {daysOfTheWeek, username: user.name, success: messages.success});
                     } else {
-                        console.log('Invalid password');
                         messages.error = 'Invalid password';
                         messages.success = '';
                         res.render('register', {daysOfTheWeek, username: user.name, error: messages.error, success: messages.success});

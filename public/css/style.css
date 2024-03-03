@@ -177,7 +177,7 @@ hr{
 }
 
 #container{
-    background-image: url('../images/waiterTwo.jpg');
+    background-image: url('../images/coffeeFive.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -270,7 +270,7 @@ hr{
     font-family: 'Poppins', sans-serif;
     color: darkseagreen;
     font-weight: 600;
-    margin: 0 0 0 5em;
+    margin: 0 0 0 4em;
 }
 
 .disabled-option{
@@ -427,6 +427,7 @@ select{
     padding: 1em 3em;
     text-shadow: .7px .7px grey;
     font-family: 'Poppins', sans-serif;
+    letter-spacing: 2px;
 }
 #submit-register-btn:hover{
     background-color: #fff;
@@ -437,13 +438,86 @@ select{
     color: crimson;
     font-family: 'Poppins', sans-serif;
     text-align: center;
+    font-weight: bolder;
+    font-size: 120%;
 }
 
 #login-success, #index-success-message{
     color: green;
     font-family: 'Poppins', sans-serif;
     text-align: center;
+    font-size: 110%;
+    font-weight: bolder;
 }
+
+#login-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#login-main-heading, #waiter-greet{
+    text-align: center;
+}
+
+#login-main-heading{
+    font-family: 'Rubik Glitch Pop', sans-serif;
+    color: navajowhite;
+    text-shadow: 1px 1px #333;
+}
+
+#waiter-greet{
+    font-family: 'Miltonian Tattoo', sans-serif;
+    color: #fff;
+    text-shadow: 1px 1px #333;
+    font-weight: bolder;
+    font-size: 120%;
+}
+
+#login-container-div{
+    background-image: url('../images/coffeeSeve.png');
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: lightseagreen;
+    height: 120vh;
+    padding: 3em 0 0 0;
+}
+
+.login-labelss{
+    font-family: 'Merienda', sans-serif;
+    color: #fff;
+    text-shadow: .8px .8px #333;
+    margin: 0 6em 0 0;
+}
+
+.log-inputs{
+    padding: 1em;
+    border: none;
+    border-radius: 3px;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 1px;
+    text-shadow: .5px .5px lightseagreen;
+}
+
+#login-btn{
+    padding: .5em 3.5em;
+    font-family: 'Ultra', sans-serif;
+    border: none;
+    border-radius: 5px;
+    background-color: lightgreen;
+    letter-spacing: 1px;
+    color: #fff;
+    text-shadow: .5px .5px grey;
+}
+
+#login-btn:hover{
+    background-color: #fff;
+    color: lightgreen;
+    cursor: pointer;
+}
+
 
 
 @media screen AND (max-width: 900px){
