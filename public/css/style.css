@@ -246,6 +246,10 @@ hr{
     padding: 0 2em 0 0;
 }
 
+#transparent-text{
+    text-shadow: .7px .7px #fff;
+}
+
 #red-text{
     color: crimson;
 }
